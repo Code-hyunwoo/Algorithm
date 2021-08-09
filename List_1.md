@@ -47,11 +47,11 @@ for tc in range(1, T+1):
     print()
 ```
 
-##### 																												
+##### 																																															
 
+​															
 
-
-
+​															
 
 ---
 
@@ -73,7 +73,7 @@ baby-gin 여부를 판단하는 프로그램을 작성하라.
 
 ---
 
-​																									
+​																																								
 
 ```python
 num = 456789
@@ -102,13 +102,13 @@ if run + tri == 2 : print("Baby Gin")
     else: print("Lose")
 ```
 
-​																										
+​																																									
 
-​																			
+​																																		
+
+​																														
 
 ---
-
-​																						
 
 ### Gravity
 
@@ -118,11 +118,9 @@ if run + tri == 2 : print("Baby Gin")
 
 - 방의 가로, 세로 길이는 항상 100이다.
 
-
-
 ---
 
-​																			
+​																																																	
 
 ```python
 T = int(input())
@@ -149,11 +147,15 @@ for tc in range(1, T+1):
     print(f'#{tc} {max_drop}')
 ```
 
+​															
+
+​															
+
+​															
+
 
 
 ---
-
-
 
 ### 	View
 
@@ -175,9 +177,7 @@ for tc in range(1, T+1):
 
 ---
 
-​							
-
-​																																	
+​																													
 
 ```python
 for tc in range(1, 11):

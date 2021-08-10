@@ -11,7 +11,7 @@ T = 10
 
 for tc in range(1, T+1):
     num = int(input())
-    height = list(map(int, input().split()))
+    H = list(map(int, input().split()))
     ans = 0
     
     for i in range(2, num-2):
@@ -559,5 +559,85 @@ for tc in range(1, T+1):
 ---
 
 ```python
+T = int(input())
+
+for tc in range(1, T+1):
+    n, m = map(int, input().split())
+    carrot = list(map(int, input().split()))
+    carrot_move = 0
+    move = 0
+
+    for district in range(n):
+        # 0구역에서 한 칸씩 이동하면서 당근 수확을 완료함, 해당구역 완료하면 다음구역으로 한 칸씩 이동
+        move += 1
+        # 해당 구역 당근 수가 0이 될 때까지 작업. 0이 되면 다음 구역으로 이동
+        while carrot[district]:
+            carrot_move += 1
+            carrot[district] -= 1
+            # 수레에 당근이 가득차면 0구역까지 돌아갔다 와서 수레 비워옴
+            if carrot_move == m:
+                move += (district+1) * 2
+                carrot_move = 0
+    # 마지막 구역까지 작업 완료 후 0구역으로 복귀
+    move += n
+    print(f'#{tc} {move}')
+```
+
+---
+
+### 당근밭 옆 고구마밭
+
+영준이는 당근 밭 옆에 다음과 같은 모양의 구역으로 나눠진 고구마 밭을 새로 만들었고, 수확철이 되자 학생들이 고구마를 캐러 방문하게 되었습니다. 마침 학생들이 알고리즘 공부를 하고 있다는 것을 알게 된 영준이는 고구마 밭의 규칙을 찾아보라 했고, 어떤 구역에 이웃한 오른쪽 구역의 고구마 개수가 더 많으면, 두 구역의 모든 고구마가 하나의 줄기에 매달려 있음을 알게 되었습니다. 학생들은 두개 이상의 구역에 걸쳐 있는 줄기를 ‘긴 줄기’라 이름 붙이고, 고구마 밭에는 총 몇 개의 긴 줄기가 있는지, 그리고 가장 긴 줄기에 달린 고구마는 모두 몇개인지 알아내는 프로그램을 만들기로 했습니다. 각 구역의 고구마 개수가 주어질 때, 학생들이 만든 프로그램의 결과를 확인하기 위한 출력을 만들어보세요. 가장 긴 줄기가 여럿일 때는 고구마의 개수가 많은 쪽을 가장 긴 줄기로 선택합니다.
+
+입력
+
+첫 줄에 테스트케이스 T, 다음 줄부터 테스트케이스 별로 첫 줄에 구역의 개수 N, 다음 줄에 각 구역의 고구마 개수 C가 주어집니다.
+
+1<=T<=50, 5<=N<=1000, 0<=C<=100
+
+출력
+
+테스트케이스별로 각 줄에 #과 테스트케이스 번호, 긴 줄기의 개수, 가장 긴 줄기에 달린 고구마의 개수를 출력합니다.
+
+```python
+T = int(input())
+
+for tc in range(1, T+1):
+    n = int(input())
+    sweet_potato = list(map(int, input().split()))
+    stem_long = 1                                      # 현재 줄기의 길이
+    stem_sp = sweet_potato[0]                          # 현재 줄기의 고구마 수
+    stem_cnt = 0                                       # 긴 줄기 수
+    max_stem_long = 1                                  # 가장 긴 줄기의 길이
+    max_stem_sp = 0                                    # 가장 긴 줄기에 달린 고구마 수
+
+    for i in range(1, n):
+        if sweet_potato[i-1] < sweet_potato[i]:        # 줄기가 이어질 때
+            stem_long += 1
+            stem_sp += sweet_potato[i]
+            if i == n-1 and stem_long >= 2:            # 마지막 구역이 긴 줄기일때 따로 처리해줘야 긴줄기수가 카운트됨
+                stem_cnt += 1
+                if stem_long > max_stem_long:          # 줄기의 길이를 비교하여 가장 긴 줄기 변경
+                    max_stem_long = stem_long
+                    max_stem_sp = stem_sp
+                if stem_long == max_stem_long:         # 긴 줄기의 길이가 같으면, 고구마가 많은 쪽으로
+                    if stem_sp > max_stem_sp:
+                        max_stem_long = stem_long
+                        max_stem_sp = stem_sp
+
+        else:                                          # 줄기가 끊어졌을 때
+            if stem_long >= 2:                         # 이전까지의 줄기가 긴 줄기인 경우
+                stem_cnt += 1                          # 긴 줄기의 개수 추가
+                if stem_long > max_stem_long:          # 끊긴 긴 줄기와 기존의 가장 긴 줄기를 비교
+                    max_stem_long = stem_long
+                    max_stem_sp = stem_sp
+                if stem_long == max_stem_long:
+                    if stem_sp > max_stem_sp:
+                        max_stem_long = stem_long
+                        max_stem_sp = stem_sp
+                stem_long = 1                          # 현재 줄기의 길이를 다시 1로 초기화
+                stem_sp = sweet_potato[i]              # 현재 줄기의 고구마 수 역시 현재 구역 개수로 초기화
+
+    print(f'#{tc} {stem_cnt} {max_stem_sp}')
 ```
 

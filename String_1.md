@@ -183,7 +183,7 @@ for tc in range(1, T+1):
                     check += 1
             if check == len(find):
                 cnt += 1
-
+           
                 
     print(f'#{tc} {cnt}')
 ```

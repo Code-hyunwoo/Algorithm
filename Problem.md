@@ -183,6 +183,28 @@ for tc in range(1, T+1):
 
 ```python
 
+T = int(input())
+for tc in range(1, T+1):
+    n = int(input())
+    room = [list(map(int, input().split())) for _ in range(n)]
+    corridors = [0] * 200                     # 위아래 room 사이의 복도를 0번부터 199까지 번호를 매김
+
+    for i, j in room:                         # room 번호 입력값에 대해서
+        move_i = (i-1) // 2                   # 방이 1번부터 시작하므로
+        move_j = (j-1) // 2                   # 1을 빼서 맨 앞 복도가 0번부터 시작하게 만듬
+        if move_i >= move_j:                  # 두 변수 중에서 큰 값에서 작은 값으로 이동
+            for k in range(move_j, move_i+1):
+                corridors[k] += 1             # 이동하면서 지나는 복도번호에 1씩 추가하며 카운팅
+        else:
+            for k in range(move_i, move_j+1):
+                corridors[k] += 1
+
+    max_time = 0
+    for corridor in corridors:                # 카운팅 된 복도 값에 대하여 최댓값 구하기
+        if corridor > max_time:
+            max_time = corridor
+
+    print(f'#{tc} {max_time}')
 ```
 
 ---
@@ -216,12 +238,49 @@ for tc in range(1, T+1):
 ---
 
 ```python
-
+T= int(input())
+for tc in range(1, T+1):
+    bracket_list = input()
+    new_list = bracket_list.replace('()', '_')
+    x = 0
+    count = 0
+    for i in new_list:
+        if i == '(':
+            x += 1
+            count += 1
+        elif i == ')':
+            x -= 1
+        elif i == '_':
+            count += x
+    print(f'#{tc} {count}')
 ```
 
 ---
 
-​																		
+```python
+
+T = int(input())
+for tc in range(1, T+1):
+    iron = input()
+    cnt = 0
+    stack = []                      # 쇠막대기 시작할때마다 stack에 넣고, 막대기가 끝나면 빼줌
+    for i in range(len(iron)):
+        x = iron[i]
+        if x == "(":                # "(" 쇠막대기가 시작하므로 stack에 넣기
+            stack.append(x)
+        else:                       # ")" 인 경우
+            if iron[i-1] == "(":    # 직전 원소가 "("이면 레이저
+                stack.pop(-1)       # stack에서 하나 제거하고
+                cnt += len(stack)   # 남아 있던 쇠막대기만큼 조각이 잘려서 개수 추가
+            else:                   # 직전 원소가 ")"이면 쇠막대기가 끝났다는 의미이므로
+                cnt += 1            # 전에 잘린 레이저 부분부터 막대기 끝까지의 조각이 하나 추가됨
+                stack.pop()         # 막대기가 끝났으므로 stack에서 제거
+
+    print(f'#{tc} {cnt}')
+
+```
+
+​								
 
 ## 삼성시의 버스 노선
 
@@ -229,6 +288,27 @@ for tc in range(1, T+1):
 
 ```python
 
+T = int(input())
+for tc in range(1, T+1):
+    n = int(input())
+    bus = []
+    for _ in range(n):                        # 버스들이 지나다니는 구간을 기록
+        a, b = map(int, input().split())
+        bus.append([a, b])
+
+    p = int(input())
+    stations = []                             # 정류장들을 기록
+    for _ in range(p):                        # 차례대록 정류장들을 리스트에 추가
+        stations.append(int(input()))
+
+    print(f'#{tc}', end=' ')
+    for i in stations:                        # 기록한 정류장들에 대해서
+        cnt = 0              
+        for a, b in bus:                       
+            if a <= i <= b:                   # 버스들이 다니는 구간에 정류장이 있으면
+                cnt += 1                      # 1씩 추가하면서 카운팅
+        print(cnt, end=' ')
+    print()
 ```
 
 ---

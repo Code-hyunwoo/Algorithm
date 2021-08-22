@@ -24,7 +24,7 @@ for x in s:
 # 스택에 남은 괄호가 있는 지 확인
 if ans == 1 and stack:
     ans = 0
-    
+      
 print(ans)
 ```
 

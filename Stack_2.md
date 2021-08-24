@@ -354,3 +354,52 @@ for tc in range(1, 11):
     print(f'#{tc} {ans}')
 ```
 
+---
+
+```python
+
+for tc in range(1, 11):
+    n = int(input())
+    sik = input()
+    stack = []
+    new_sik = ''
+
+    for i in sik:                                # step1, 후위 표기법 변환
+        if i.isdigit():                          # 토큰이 피연산자이면 출력
+            new_sik += i
+        else:                                    # 연산자이면,
+            if not stack:                        # 먼저 스택이 비워져있으면,
+                stack.append(i)                  # 연산자 무조건 push
+            else:                                # 연산자들의 경우
+                if i == '(':                     # 여는 괄호이면 icp가 제일 높으므로 스택에 무조건 push
+                    stack.append(i)
+                elif i == ')':                   # 닫는 괄호이면 스택 top에 여는 괄호가 나올 때까지 pop
+                    while stack[-1] != '(':
+                        new_sik += stack.pop()
+                    stack.pop()                  # 여는 괄호 만나면 pop 해서 괄호 두개 모두 없애줌
+                elif i == '+' or i == '-':       # '+'나 '-'이면 스택이 있고 본인보다 우선순위가 낮은 연산자를 만날 때까지 pop
+                    while stack and stack[-1] != '(':     # 우선순위가 낮은 연사자가 '(' 밖에 없음
+                        new_sik += stack.pop()
+                    stack.append(i)              # pop 한 후 '+' or '-' 연산자 push
+                elif i == '*' or i == '/':       # 본인보다 우선순위가 낮은 연산자를 만날 때까지 pop 이므로 본인이 안나올때까지
+                    while stack and stack[-1] == '*' or stack[-1] == '/':
+                        new_sik += stack.pop()
+                    stack.append(i)
+    for j in range(len(stack)):                  # 스텍에 남아 있는 연산자를 모두 pop하여 출력
+        new_sik += stack.pop()
+
+    for i in new_sik:                            # step2, 후위 표기법 계산
+        if i == '+':
+            x1 = stack.pop()
+            x2 = stack.pop()
+            stack.append(x1 + x2)
+        elif i == '*':
+            x1 = stack.pop()
+            x2 = stack.pop()
+            stack.append(x1 * x2)
+        else:                                   # 피연산자는 모두 스택에 push 계산을 위해 int처리해줌
+            stack.append(int(i))
+    ans = stack.pop()                           # 마지막 스택을 꺼내서 답 변수에 저장
+    print(f'#{tc} {ans}')
+```
+

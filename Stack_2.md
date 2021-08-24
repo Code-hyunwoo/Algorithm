@@ -251,30 +251,29 @@ for tc in range(1, T + 1):
 ---
 
 ```python
-def f(i, N, s):
-    global min_sum
+def p_sum(i, N, s):
+    global minV
 
     if i == N:
-        if min_sum > s:
-            min_sum = s
-    elif min_sum <= s:
+        if s < minV:                   # 부분합이 최소합변수보다 작으면
+            minV = s                   # 최솟값 변경 
+    elif s >= minV:                    # 가지치기, 부분합이 중간에 이미 최솟값을 넘기면 종료
         return
-    else:
-        for j in range(i, N):
-            p[i], p[j] = p[j], p[i]
-            f(i+1, N, s + arr[i][p[i]])
-            p[i], p[j] = p[j], p[i]
-        return
+
+    else:                       
+        for j in range(i, N):          # 열에 대한 순열 구하기
+            P[i], P[j] = P[j], P[i]
+            p_sum(i+1, N, s + arr[i][P[i]])   # 열 순열에서 첫 자리가 정해지면 그 부분합 더해서 재귀
+            P[i], P[j] = P[j], P[i]
 
 T = int(input())
-for tc in range(1, T + 1):
+for tc in range(1, T+1):
     N = int(input())
     arr = [list(map(int, input().split())) for _ in range(N)]
-    min_sum = 10 * N * N
-    p = list(range(N))
-    f(0, N, 0)
-    print(f'#{tc} {min_sum}')
-
+    P = list(range(N))                 # 순열 기록 리스트
+    minV = 10 * N
+    p_sum(0, N, 0)
+    print(f'#{tc} {minV}')
 ```
 
 ---

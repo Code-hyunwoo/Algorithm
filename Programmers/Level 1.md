@@ -2,7 +2,7 @@
 
 ---
 
-
+​																									
 
 - ### x만큼 간격이 있는 n개의 숫자
 
@@ -33,9 +33,9 @@ def solution(x, n):
 
 ---
 
+​												
 
-
-- 행렬의 덧셈
+- ### 행렬의 덧셈
 - darklight
 
 - sublimevimemacs

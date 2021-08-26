@@ -320,17 +320,11 @@ for tc in range(1, T+1):
     print(f'#{tc} {res}')
 ```
 
+---
 
+​													
 
-
-
-
-
-
-
-
-
-### 오목 판정
+### 퍼펙트 셔플
 
 ​				
 
@@ -338,7 +332,70 @@ for tc in range(1, T+1):
 
 ```
 
-### 오목 판정
+### 스도쿠 검증
+
+​				
+
+```python
+
+```
+
+---
+
+
+
+### 진기의 최고급 붕어빵
+
+​				
+
+```python
+
+T = int(input())
+for tc in range(1, T+1):
+    N, M, K = map(int, input().split())
+    guest = list(map(int, input().split()))
+    guest.sort()          # 손님들을 도착 시간에 따라 오름차순 정렬
+    boong = 0             # 붕어빵 갯수
+    t = 0                 # 시간초
+    ans = 'Possible'      # 불가능 뜨지 않으면 다 가능하다는 의미
+    cnt = 0               # 붕어빵을 사간 손님수 카운트
+
+    while t <= guest[-1]:                      # 마지막 손님이 올 때까지 실행
+        if t > 0 and t % M == 0:               # t가 0 보다 크고, M의 배수 일 때마다
+            boong += K                         # 붕어빵 K개씩 생성
+        for i in range(N):
+            if guest[i] == t:                  # 게스트가 해당 시간에 왔을 때
+                if boong != 0:                 # 붕어빵이 있으면
+                    boong -= 1                 # 붕어빵 하나 빼고
+                else:                          # 붕어빵이 없으면
+                    ans = 'Impossible'         # 불가능
+                    break
+        t += 1
+
+    print(f'#{tc} {ans}')
+```
+
+---
+
+```python
+T = int(input())
+for tc in range(1, T+1):
+    N, M, K = map(int, input().split())
+    guest = list(map(int, input().split()))
+    guest.sort()       # 손님들을 도착 시간에 따라 오름차순 정렬
+    ans = 'Possible'   # 불가능한 경우가 없으면 가능하다는 의미
+
+    for i, time in enumerate(guest, start=1):    # 정렬된 손님리스트에 대하여
+        if (time//M)*K < i:        # 손님이 오는 시간을 M으로 나눈 몫에 만들 수 있는 붕어빵 K을 곱했을 때
+            ans = 'Impossible'     # i(== 손님수) 보다 만든 붕어빵의 총합이 작으면 불가능
+            break
+
+    print(f'#{tc} {ans}')
+```
+
+​																	
+
+### Magnetci
 
 ​				
 

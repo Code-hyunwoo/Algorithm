@@ -1,0 +1,348 @@
+# :boom: IM 대비
+
+---
+
+
+
+### 토글
+
+​			
+
+```python
+
+T = int(input())
+for tc in range(1, T+1):
+    N, M = map(int, input().split())
+    arr = [list(map(int, input().split())) for _ in range(N)]
+
+    for k in range(1, M+1):
+        for i in range(N):
+            for j in range(N):
+                if M % k == 0 or k == M:                # M이 k의 배수 이거나 k가 M 인 경우
+                    if arr[i][j] == 0:                  # 전체를 토글
+                        arr[i][j] = 1
+                    else:
+                        arr[i][j] = 0
+                else:                                   # 그냥 k초 일 경우
+                    if i+j+2 == k or (i+j+2) % k == 0:  # 문제가 첫 항이 1부터 시작한다는 점을 유의
+                        if arr[i][j] == 0:              # 행열의 합이 k와 같거나 k의 배수인 경우 해당 행열 토글 
+                            arr[i][j] = 1
+                        else:
+                            arr[i][j] = 0
+    cnt = 0
+    for a in range(N):             
+        for b in range(N):
+            if arr[a][b] == 1:
+                cnt += 1
+
+    print(f'#{tc} {cnt}')
+
+```
+
+---
+
+
+
+### 파리퇴치 3
+
+​				
+
+```python
+
+T = int(input())
+for tc in range(1, T+1):
+    N, M = map(int, input().split())
+    arr = [list(map(int, input().split())) for _ in range(N)]
+
+    max_kill = 0
+
+    # 1. 십자 모양 스프레이
+
+    for i in range(N):
+        for j in range(N):
+            kill = 0
+            for a in range(-(M-1), M, 1):         # 선택한 행렬의 가로줄 뿌리기. 범위 설정이 중요
+                if 0 <= i+a < N:                  # 가로로 뿌릴 구역이 범위내에 있으면
+                    kill += arr[i+a][j]           # 파리퇴치
+            for b in range(-(M-1), M, 1):         # 선택한 행렬의 세로줄 뿌리기
+                if 0 <= j+b < N:
+                    kill += arr[i][j+b]
+            kill -= arr[i][j]                     # 선택한 행렬이 두 번 뿌려졌으므로 한번 제외
+            if max_kill < kill:                   # 최댓값 비교
+                max_kill = kill
+
+    # 2. x자 모양 스프레이
+
+    for i in range(N):
+        for j in range(N):
+            kill = 0
+            for a in range(-(M-1), M, 1):         # 선택한 행렬의 좌상향 방향으로 뿌리기
+                if 0 <= i+a < N and 0 <= j+a < N: # 뿌릴 구역이 범위내에 있으면
+                    kill += arr[i+a][j+a]
+            for b in range(-(M-1), M, 1):         # 선택한 행렬의 우상향 방향으로 뿌리기
+                if 0 <= i+b < N and 0 <= j-b < N: # 뿌릴 구역 범위내 변수 주의하기
+                    kill += arr[i+b][j-b]
+            kill -= arr[i][j]                     # 선택한 행렬이 두 번 뿌려졌으므로 한번 제외
+            if max_kill < kill:
+                max_kill = kill
+
+    print(f'#{tc} {max_kill}')
+```
+
+---
+
+```python
+def plus(area, x, y, n, m): # + 모양
+    cnt = area[y][x]
+    for i in range(1, m):
+        for dx, dy in [[0, 1], [0, -1], [1, 0], [-1, 0]]: # 방향
+            nx, ny = x + i*dx, y + i*dy
+            if 0<= nx < n and 0<= ny < n :
+                cnt += area[ny][nx]
+    return cnt
+ 
+ 
+def cross(area, x, y, n, m): # x 모양
+    cnt = area[y][x]
+    for i in range(1, m):
+        for dx, dy in [[-1, -1], [1, -1], [-1, 1], [1, 1]]: # 방향
+            nx, ny = x + i*dx, y + i*dy
+            if 0<= nx < n and 0<= ny < n :
+                cnt += area[ny][nx]
+    return cnt
+ 
+ 
+T = int(input())
+for tc in range(1, T+1):
+    n, m = map(int, input().split())
+    area = [list(map(int, input().split())) for _ in range(n)]
+     
+    res = 0
+    for y in range(n):
+        for x in range(n):
+            res1, res2 = plus(area, x, y, n, m), cross(area, x, y, n, m)
+            res = max(res, res1, res2)
+             
+    print(f'#{tc} {res}')
+```
+
+---
+
+​																			
+
+​																
+
+### 오목 판정
+
+​				
+
+```python
+def check(table, N):
+    di = [0, 1, 1, 1]
+    dj = [1, 0, 1, -1]
+    for i in range(N):
+        for j in range(N):
+            if table[i][j] == 'o':
+                for k in range(4):
+                    cnt = 1
+                    ni = i + di[k]
+                    nj = j + dj[k]
+                    while True:
+                        if 0 <= ni < N and 0 <= nj < N and table[ni][nj] == 'o':
+                            cnt += 1
+                            ni += di[k]
+                            nj += dj[k]
+                        else:
+                            break
+                    if cnt == 5:
+                        return 'YES'
+    return 'NO'
+
+
+T = int(input())
+
+for tc in range(1, T + 1):
+    N = int(input())
+    table = [list(input()) for _ in range(N)]
+
+    print('#{} {}'.format(tc, check(table, N)))
+```
+
+---
+
+​				
+
+```python
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    omok = [list(input()) for _ in range(N)]
+    ans = 'NO'
+    for i in range(N):
+        for j in range(N):
+            if omok[i][j] == 'o':                   # 선택한 행렬이 o 일 때 출발
+                cnt = 1                             # 오목 카운트 1
+                # 가로 확인
+                for k in range(j+1, N):             # 오른쪽으로 끝까지 확인
+                    if omok[i][k] == 'o':           # 다음 열이 o이면 카운트, 오목 카운트 확인
+                        cnt += 1
+                        if cnt >= 5:                # 오목 카운트가 5가 되면
+                            ans = 'YES'
+                            break                   # 중단
+                        else:
+                            continue
+                    else:                           # 다음 열이 o이 아니면 그만.
+                        cnt = 1
+                        break
+                else:                               # 가로행을 다 돌았는데, 오목은 아니나 돌로 끝나는 경우
+                    cnt = 1                         # 다음 세로 확인을 위해 카운트 초기화 해줘야함
+
+                # 세로 확인
+                for q in range(i+1, N):
+                    if omok[q][j] == 'o':
+                        cnt += 1
+                        if cnt >= 5:
+                            ans = 'YES'
+                            break
+                        else:
+                            continue
+                    else:
+                        cnt = 1
+                        break
+                else:
+                    cnt = 1
+
+                # 대각선(우상향) 확인
+                for a in range(1, N):                 # 선택한 행렬에서 오른쪽위 대각선으로 오목이 되는 경우 확인
+                    if 0 <= i-a < N and 0 <= j+a < N: # 범위 내에 있을 때
+                        if omok[i-a][j+a] == 'o':
+                            cnt += 1
+                            if cnt >= 5:
+                                ans = 'YES'
+                                break
+                            else:
+                                continue
+                        else:
+                            cnt = 1
+                            break
+                    else:                             # 범위를 나가서 끝나는 경우 카운트를 1로 초기화하고 끝내야함
+                        cnt = 1
+                        break
+                # 대각선(좌상향) 확인
+                for b in range(1, N):                 # 선택한 행렬에서 왼쪽위 대각선으로 오목이 되는 경우 확인
+                    if 0 <= i-b < N and 0 <= j-b < N:
+                        if omok[i-b][j-b] == 'o':
+                            cnt += 1
+                            if cnt >= 5:
+                                ans = 'YES'
+                                break
+                            else:
+                                continue
+                        else:
+                            cnt = 1
+                            break
+                    else:                             # 범위를 나가서 끝나는 경우 카운트를 1로 초기화하고 끝내야함
+                        cnt = 1
+                        break
+    print(f'#{tc} {ans}')
+
+```
+
+
+
+---
+
+
+
+### 정곤이의 단조 증가하는 수
+
+​				
+
+```python
+
+def danjo(n):
+    a = []
+    while n > 0:
+        a.append(n % 10)   # 모든 자릿수를 1의 자리부터 하나씩 리스트에 추가
+        n = n // 10
+
+    for i in range(1, len(a)):            # 리스트를 돌면서
+        if a[i] <= a[i-1]:                # 앞 항이 바로 뒷 항보다 크거나 같은경우
+            continue                      # 계속 진행
+        else:                             # 중간에 그렇지 않다면
+            return 0                      # 단조가 아님
+    return 1                              # for문 다 돌았으면 단조
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    num = list(map(int, input().split()))
+    maxV = -1                             # 단조가 없으면 -1 출력해야 되니까 -1로 설정
+
+    for i in range(N-1):
+        tmpV = 0
+        for j in range(i+1, N):
+            if danjo(num[i] * num[j]) == 1:    # 단조이면
+                tmpV = num[i] * num[j]         # 값 저장
+                if tmpV > maxV:                # 최댓값 찾기
+                    maxV = tmpV
+
+
+    print(f'#{tc} {maxV}')
+```
+
+---
+
+```python
+def check(num): # 단조 증가 판단
+    number = list(str(num))
+    for i in range(len(number)-1):
+        if number[i] > number[i+1] :
+            return 0
+    return 1
+ 
+ 
+T = int(input())
+for tc in range(1, T+1):
+    n = int(input())
+    nums = list(map(int, input().split()))
+     
+    res = -1
+    for i in range(n-1):
+        for j in range(i+1, n):
+            num = nums[i]*nums[j]
+            if num <= res:
+                continue
+             
+            if check(num) and res < num: # 단조 증가이면서 값이 더 큰 경우 변환
+                res = num
+    print(f'#{tc} {res}')
+```
+
+
+
+
+
+
+
+
+
+
+
+### 오목 판정
+
+​				
+
+```python
+
+```
+
+### 오목 판정
+
+​				
+
+```python
+
+```
+

@@ -7,7 +7,7 @@
 ### 괄호검사
 
 ```python
-s = input()
+s = input()   
 stack = []
 ans = 1
 for x in s:

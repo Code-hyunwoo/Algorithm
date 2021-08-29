@@ -255,6 +255,37 @@ for tc in range(1, T+1):
 
 
 
+### 타일로봇	
+
+​									
+
+```python
+
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    arr = [[0] * 10 for _ in range(10)]
+    cnt = 0
+    for _ in range(N):
+        x1, y1, x2, y2 = map(int, input().split())
+
+        for i in range(x1, x2+1):
+            for j in range(y1, y2+1):
+                if arr[i][j] == 0:
+                    arr[i][j] = 1
+                    cnt += 1
+
+    print('#{} {}'.format(tc, cnt))
+```
+
+
+
+
+
+
+
+
+
 ### 정곤이의 단조 증가하는 수
 
 ​				
@@ -322,22 +353,74 @@ for tc in range(1, T+1):
 
 ---
 
-​													
+​																											
 
 ### 퍼펙트 셔플
 
-​				
+​																				
 
 ```python
+T = int(input())
+for tc in range(1, T+1):
+    N = int(input())
+    card = list(input().split())
+    new = []
+    if N % 2 == 0:   # N이 짝수 일 때,
+        for i in range(N // 2):
+            new.append(card[i])
+            new.append(card[(N // 2) + i])
+    else:            # N이 홀수 일 때,
+        for i in range(N // 2):
+            new.append(card[i])
+            new.append(card[(N // 2) + i + 1])
+        new.append(card[N//2])
 
+    print('#{}'.format(tc), end=' ')
+    for k in range(N):
+        print('{}'.format(new[k]), end=' ')
+    print()
 ```
+
+​																												
 
 ### 스도쿠 검증
 
-​				
+​																														
 
 ```python
 
+T = int(input())
+for tc in range(1, T+1):
+    sdoku = [list(map(int, input().split())) for _ in range(9)]
+    check = [0] + [1]*9
+
+    cnt = 0
+    for i in range(9):
+        count_a = [0] * 10
+        count_b = [0] * 10
+        for j in range(9):
+            count_a[sdoku[i][j]] += 1
+            count_b[sdoku[j][i]] += 1
+        if count_a == check:
+            cnt += 1
+        if count_b == check:
+            cnt += 1
+
+    nemo_start = [0, 3, 6]
+    for i in nemo_start:
+        for j in nemo_start:
+            count_c = [0] * 10
+            for k in range(3):
+                for q in range(3):
+                    count_c[sdoku[i+k][j+q]] += 1
+                if count_c == check:
+                    cnt += 1
+    if cnt == 27:
+        ans = 1
+    else:
+        ans = 0
+
+    print('#{} {}'.format(tc, ans))
 ```
 
 ---
@@ -395,11 +478,27 @@ for tc in range(1, T+1):
 
 ​																	
 
-### Magnetci
+### Magnetic
 
 ​				
 
 ```python
+T = 10
+for tc in range(1, T+1):
+    N = int(input())
+    table = [list(map(int, input().split())) for _ in range(N)]
+    cnt = 0    # 교착 상태 카운트
+    # 1은 N극, 2는 S극
+    for i in range(N):
+        mag = 0                      # 열 바뀌면 초기화
+        for j in range(N):           # 한 열씩 검사
+            if table[j][i] == 1:     # N극 자성체이면
+                mag = 1              # 자력 1인 상태로 내려감
+            elif table[j][i] == 2:   # 그다음 열 조사할 때, S극 자성체이면,
+                if mag == 1:         # 만약 자력이 1인 상태라면
+                    cnt += 1         # 둘이 만나서 교착 됨
+                    mag = 0          # 교착되고 자력 0으로 초기화
 
+    print('#{} {}'.format(tc, cnt))
 ```
 

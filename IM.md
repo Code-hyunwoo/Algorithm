@@ -177,74 +177,24 @@ for tc in range(1, T + 1):
 T = int(input())
 for tc in range(1, T+1):
     N = int(input())
-    omok = [list(input()) for _ in range(N)]
+    table = [list(input()) for _ in range(N)]
     ans = 'NO'
     for i in range(N):
         for j in range(N):
-            if omok[i][j] == 'o':                   # 선택한 행렬이 o 일 때 출발
-                cnt = 1                             # 오목 카운트 1
-                # 가로 확인
-                for k in range(j+1, N):             # 오른쪽으로 끝까지 확인
-                    if omok[i][k] == 'o':           # 다음 열이 o이면 카운트, 오목 카운트 확인
-                        cnt += 1
-                        if cnt >= 5:                # 오목 카운트가 5가 되면
-                            ans = 'YES'
-                            break                   # 중단
+            if table[i][j] == 'o':
+                for di, dj in ([1, 0], [0, 1], [1, 1], [-1, 1]):
+                    check = 1
+                    ni, nj = i + di, j + dj
+                    while True:
+                        if 0 <= ni < N and 0 <= nj < N and table[ni][nj] == 'o':
+                            check += 1
+                            ni += di
+                            nj += dj
                         else:
-                            continue
-                    else:                           # 다음 열이 o이 아니면 그만.
-                        cnt = 1
-                        break
-                else:                               # 가로행을 다 돌았는데, 오목은 아니나 돌로 끝나는 경우
-                    cnt = 1                         # 다음 세로 확인을 위해 카운트 초기화 해줘야함
+                            break
+                    if check >= 5:
+                        ans = 'YES'
 
-                # 세로 확인
-                for q in range(i+1, N):
-                    if omok[q][j] == 'o':
-                        cnt += 1
-                        if cnt >= 5:
-                            ans = 'YES'
-                            break
-                        else:
-                            continue
-                    else:
-                        cnt = 1
-                        break
-                else:
-                    cnt = 1
-
-                # 대각선(우상향) 확인
-                for a in range(1, N):                 # 선택한 행렬에서 오른쪽위 대각선으로 오목이 되는 경우 확인
-                    if 0 <= i-a < N and 0 <= j+a < N: # 범위 내에 있을 때
-                        if omok[i-a][j+a] == 'o':
-                            cnt += 1
-                            if cnt >= 5:
-                                ans = 'YES'
-                                break
-                            else:
-                                continue
-                        else:
-                            cnt = 1
-                            break
-                    else:                             # 범위를 나가서 끝나는 경우 카운트를 1로 초기화하고 끝내야함
-                        cnt = 1
-                        break
-                # 대각선(좌상향) 확인
-                for b in range(1, N):                 # 선택한 행렬에서 왼쪽위 대각선으로 오목이 되는 경우 확인
-                    if 0 <= i-b < N and 0 <= j-b < N:
-                        if omok[i-b][j-b] == 'o':
-                            cnt += 1
-                            if cnt >= 5:
-                                ans = 'YES'
-                                break
-                            else:
-                                continue
-                        else:
-                            cnt = 1
-                            break
-                    else:                             # 범위를 나가서 끝나는 경우 카운트를 1로 초기화하고 끝내야함
-                        cnt = 1
-                        break
     print(f'#{tc} {ans}')
 
 ```

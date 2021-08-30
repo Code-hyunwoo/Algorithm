@@ -449,6 +449,8 @@ for tc in range(1, T+1):
                     cnt += 1         # 둘이 만나서 교착 됨
                     mag = 0          # 교착되고 자력 0으로 초기화
 
-    print('#{} {}'.format(tc, cnt))
+    print('#{} {}'.format(tc, cnt))  
 ```
+
+​						
 

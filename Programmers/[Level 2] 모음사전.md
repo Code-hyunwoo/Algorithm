@@ -27,13 +27,13 @@ print(solution)
 
 
 
-### [product, permutations, combinations]
-
-​			
+### [product, permutations, combinations]	
 
 ![image-20211102213127293]([Level 2] 모음사전.assets/image-20211102213127293.png)
 
 
+
+![image-20211102220057080]([Level 2] 모음사전.assets/image-20211102220057080.png)
 
 
 

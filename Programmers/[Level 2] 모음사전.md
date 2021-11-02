@@ -33,10 +33,6 @@ print(solution)
 
 
 
-![image-20211102220057080]([Level 2] 모음사전.assets/image-20211102220057080.png)
-
-
-
 ### sorted, sort 문자열
 
 1. **sort**() : 알파벳 순서로 **문자열 정렬** list.**sort**() 는 대문자에서 소문자 순서로, 알파벳 순서로 **정렬**

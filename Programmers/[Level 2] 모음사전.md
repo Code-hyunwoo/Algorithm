@@ -23,13 +23,15 @@ print(solution)
 
 ### [lambda 함수]
 
-![image-20211102211709443]([Level 2] 모음사전.assets/image-20211102211709443-16358578286451.png)
+![image-20211102211709443]([Level 2] 모음사전.assets/image-20211102211709443.png)
 
 
 
-### [product, permutations, combinations]	
+### [product, permutations, combinations]
 
 ![image-20211102213127293]([Level 2] 모음사전.assets/image-20211102213127293.png)
+
+
 
 
 

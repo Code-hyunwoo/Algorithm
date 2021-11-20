@@ -9,7 +9,7 @@ def solution(dartResult):
     for i in range(len(dartResult)):
         if dartResult[i].isdigit():
             if dartResult[i] == '1':
-                if dartResult[i+1] == '0':
+                if dartResult[i+1] == '0':				
                     answer.append(int(10))
                 else:
                     answer.append(int(1))
